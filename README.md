@@ -14,7 +14,10 @@ Make sure you have at least Python version 3. In your terminal run
 
 ```bash
 cd JBChess
+# Install as root (not recommended) unless you are in a virtualenv
 pip install -e .
+# Install as user if you don't have a virtualenv
+pip install --user -e .
 ```
 
 ## Running a new game
