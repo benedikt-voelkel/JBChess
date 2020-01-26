@@ -25,7 +25,7 @@ pip install --user -e .
 Just type `jbchess-play` in your terminal after you have installed the package.
 
 
-## Conding guidlines
+## Coding guidelines
 
 **Please comply with the [PEP8 standards](https://www.python.org/dev/peps/pep-0008/)**
 
