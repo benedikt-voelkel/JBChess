@@ -1,0 +1,49 @@
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - "jbchess/**"
+    pull_request:
+        branches:
+            - master
+        paths:
+            - "jbchess/**"
+
+
+
+
+jobs:
+    build-os-latest:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            os: [ubuntu-latest, macOS-latest]
+            python-version: [3.6, 3.7]
+            test-tool: [pylint]
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Set up Python version ${{ matrix.python-version }}
+              uses: actions/setup-python@v1
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt 
+
+            - name: Install test-tool ${{ matrix.test-tool }}
+              run: |
+                  pip install ${{ matrix.test-tool }}
+
+            - name: Test on push
+              if: github.event_name == "push"
+              run: |
+                  changed_files="$(find . -name '*.py' -a -not -name 'setup.py')"
+                  tests/run_tests.sh ${{ matrix.test-tool }} --files $changed_files
+
+            - name: Test on pull_request
+              if: github.event_name == "pull_request"
+              run: |
+                  changed_files="$(git diff --name-only remotes/origins/${{ github.base_ref }} | grep -E '\.py' | grep -vE 'setup.py')"
+                  tests/run_tests.sh ${{ matrix.test-tool }} --files $changed_files
