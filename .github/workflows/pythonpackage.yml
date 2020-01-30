@@ -17,9 +17,10 @@ jobs:
     build-os-latest:
         runs-on: ${{ matrix.os }}
         strategy:
-            os: [ubuntu-latest, macOS-latest]
-            python-version: [3.6, 3.7]
-            test-tool: [pylint]
+            matrix:
+                os: [ubuntu-latest, macOS-latest]
+                python-version: [3.6, 3.7]
+                test-tool: [pylint]
 
         steps:
             - uses: actions/checkout@v2
