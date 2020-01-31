@@ -16,14 +16,17 @@ class BoardBase:
         Args:
             occupied: bits equal 1 indicate field is occupied
         """
-        # 64-bit number with bits set to 1 for each field occupied
+        # (64-)bit number with bits set to 1 for each field occupied
         self.occupied = occupied
+        # List of symbols where occupied. At the moment used for drawing
         self.symbols = None
-
+        # One symbol representing this piece type on the board
         self.symbol = kwargs.get("symbol", "x")
 
 
     def prepare_symbol_list(self):
+        """Prepare the symbols list
+        """
         if not self.symbols:
             self.symbols = [None] * 64
         for i in range(64):
@@ -31,20 +34,6 @@ class BoardBase:
                 self.symbols[i] = self.symbol
                 continue
             self.symbols[i] = None
-
-
-    def __str__(self):
-        self.prepare_symbol_list()
-        string = ""
-        for i, s in enumerate(self.symbols):
-            if i % 8 == 0:
-                string = string + "\n---------------------------------\n|"
-            if s:
-                string = string + f" {s} |"
-                continue
-            string = string + "   |"
-        string = string + "\n---------------------------------\n"
-        return string
 
 
 class PiecesBase(BoardBase):
@@ -83,8 +72,11 @@ class BoardCollection(BoardBase):
 
         """
         super().__init__()
+
+        # Holding a list of boards
         self.boards = boards
 
+        # Update the boards self.occupied member from collected boards
         self.update_board()
 
 
@@ -114,21 +106,13 @@ class BoardCollection(BoardBase):
             self.occupied = self.occupied | b.occupied
 
 
-    def __str__(self):
-        symbols = [None] * 64
+    def prepare_symbol_list(self):
+        """Prepare the symbols list
+        """
+        if not self.symbols:
+            self.symbols = [None] * 64
         for b in self.boards:
             b.prepare_symbol_list()
             for i, s in enumerate(b.symbols):
                 if s:
-                    symbols[i] = s
-
-        string = ""
-        for i, s in enumerate(symbols):
-            if i % 8 == 0:
-                string = string + "\n---------------------------------\n|"
-            if s:
-                string = string + f" {s} |"
-                continue
-            string = string + "   |"
-        string = string + "\n---------------------------------\n"
-        return string
+                    self.symbols[i] = s

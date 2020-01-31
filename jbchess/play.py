@@ -1,4 +1,5 @@
 from jbchess.chessboard.board import BoardBase, BoardCollection
+from jbchess.chessboard.utils import draw_board
 
 
 def play():
@@ -8,16 +9,18 @@ def play():
     """
     print("Play JBChess")
 
-    board = BoardBase(1, symbol="o")
-
+    # Make 4 boards with pieces at different positions. Each board represents pieces of one type
+    # at their current position
+    board1 = BoardBase(1, symbol="o")
     board2 = BoardBase(2, symbol="H")
     board3 = BoardBase(4, symbol="O")
+    board4 = BoardBase(512 + 2048, symbol="X")
 
-    print(board)
+    # Draw the first board
+    draw_board(board1)
 
-    print(board2)
-    print(board3)
+    # Make a collection of boards
+    board_coll = BoardCollection(board1, board2, board3, board4)
 
-    board_coll = BoardCollection(board, board2, board3)
-
-    print(board_coll)
+    # Draw the collection
+    draw_board(board_coll)
