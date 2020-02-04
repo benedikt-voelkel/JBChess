@@ -22,5 +22,14 @@ def play():
     # Make a collection of boards
     board_coll = BoardCollection(board1, board2, board3, board4)
 
+    board5 = BoardBase(4096, symbol="Y")
+
+    board_coll1 = BoardCollection(board1, board2, board3, board4)
+
+    board_coll2 = BoardCollection(board_coll1, board5)
+
     # Draw the collection
-    draw_board(board_coll)
+    draw_board(board_coll1)
+
+    # Draw collection of collection
+    draw_board(board_coll2)
