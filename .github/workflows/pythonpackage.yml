@@ -38,13 +38,13 @@ jobs:
                   pip install ${{ matrix.test-tool }}
 
             - name: Test on push
-              if: github.event_name == "push"
+              if: github.event_name == 'push'
               run: |
                   changed_files="$(find . -name '*.py' -a -not -name 'setup.py')"
                   tests/run_tests.sh ${{ matrix.test-tool }} --files $changed_files
 
             - name: Test on pull_request
-              if: github.event_name == "pull_request"
+              if: github.event_name == 'pull_request'
               run: |
                   changed_files="$(git diff --name-only remotes/origins/${{ github.base_ref }} | grep -E '\.py' | grep -vE 'setup.py')"
                   tests/run_tests.sh ${{ matrix.test-tool }} --files $changed_files
