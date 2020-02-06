@@ -33,3 +33,5 @@ def play():
 
     # Draw collection of collection
     draw_board(board_coll2)
+
+    # This is a test
