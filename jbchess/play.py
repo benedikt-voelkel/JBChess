@@ -9,29 +9,31 @@ def play():
     """
     print("Play JBChess")
 
-    # Make 4 boards with pieces at different positions. Each board represents pieces of one type
-    # at their current position
-    board1 = BoardBase(1, symbol="o")
-    board2 = BoardBase(2, symbol="H")
-    board3 = BoardBase(4, symbol="O")
-    board4 = BoardBase(512 + 2048, symbol="X")
+    # Tell the user how to use place pieces on the board
+    print("\nThe Position prompt requires a 2**n value.")
+    print("For 'Piece' enter one of the following symbols: K,Q,R,N,B,P,k,q,r,n,b,p.")
 
-    # Draw the first board
-    draw_board(board1)
+    # Initialise an empty board
+    board_prev = BoardBase()
 
-    # Make a collection of boards
-    board_coll = BoardCollection(board1, board2, board3, board4)
+    # Variable to terminate the game if true
+    mate = None
 
-    board5 = BoardBase(4096, symbol="Y")
+    # Loop over input/drawing procedure
+    while not mate:
 
-    board_coll1 = BoardCollection(board1, board2, board3, board4)
+        # Ask user for position and piece-type
+        pos = int(input("Position: "))
+        piece = input("Piece: ")
 
-    board_coll2 = BoardCollection(board_coll1, board5)
+        # Store input in a BoardBase object
+        board_in = BoardBase(pos, symbol=piece)
 
-    # Draw the collection
-    draw_board(board_coll1)
+        # Make a collection of previous board and input
+        board_prev = BoardCollection(board_prev, board_in)
 
-    # Draw collection of collection
-    draw_board(board_coll2)
+        # Check for mate
+        # mate_checking_function(board_prev) returns mate is true
 
-    # This is a test
+        # Draw board
+        draw_board(board_prev)
